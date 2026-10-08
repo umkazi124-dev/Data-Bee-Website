@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data Bee | Health Data Solutions</title>
+  <meta name="description" content="Data Bee manages patient data in several formats to provide information to relevant government departments like Birth-Death, MTP, Ultrasonography, hospitals and clinics.">
+  <meta name="theme-color" content="#23214a">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Data Bee | Health Data Solutions">
+  <meta property="og:description" content="Managing patient data in several formats for Birth-Death, MTP, Ultrasonography, hospitals and clinics.">
+  <meta property="og:image" content="assets/logo.png">
+
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy: #23214a;
+      --navy-soft: #4a4870;
+      --gold: #d4943a;
+      --gold-dark: #b97b25;
+      --bg: #f7f6f2;
+      --card: rgba(255, 255, 255, 0.82);
+      --line: rgba(35, 33, 74, 0.10);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { height: 100%; }
+
+    body {
+      font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      color: var(--navy);
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ---------- Background ---------- */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .bg::before {
+      /* honeycomb pattern */
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'%3E%3Cpath d='M28 0 L56 16.2 L56 48.5 L28 64.7 L0 48.5 L0 16.2 Z M28 64.7 L28 97 M0 16.2 L0 0 M56 16.2 L56 0' fill='none' stroke='%2323214a' stroke-opacity='0.07' stroke-width='1'/%3E%3C/svg%3E");
+      background-size: 56px 97px;
+      -webkit-mask-image: radial-gradient(ellipse at center, #000 10%, transparent 75%);
+              mask-image: radial-gradient(ellipse at center, #000 10%, transparent 75%);
+    }
+    .glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.55;
+      animation: drift 18s ease-in-out infinite alternate;
+    }
+    .glow.gold { width: 520px; height: 520px; background: #f3d39f; top: -160px; right: -140px; }
+    .glow.navy { width: 560px; height: 560px; background: #c9cbe6; bottom: -200px; left: -180px; animation-delay: -9s; }
+
+    @keyframes drift {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(40px, 30px) scale(1.08); }
+    }
+
+    /* data-network lines */
+    .network {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .network path {
+      fill: none;
+      stroke: var(--gold);
+      stroke-width: 1.2;
+      stroke-opacity: 0.35;
+      stroke-dasharray: 6 10;
+      animation: flow 30s linear infinite;
+    }
+    .network circle { fill: var(--gold); fill-opacity: 0.45; }
+    .network .n { stroke: var(--navy); stroke-opacity: 0.18; }
+    .network .nc { fill: var(--navy); fill-opacity: 0.25; }
+    @keyframes flow { to { stroke-dashoffset: -320; } }
+
+    /* ---------- Layout ---------- */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 16px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 860px;
+      background: var(--card);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: 0 30px 80px -30px rgba(35, 33, 74, 0.25), 0 2px 6px rgba(35, 33, 74, 0.04);
+      padding: 56px 56px 48px;
+      text-align: center;
+      animation: rise 0.9s cubic-bezier(.2, .7, .2, 1) both;
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    .logo {
+      width: 100%;
+      max-width: 520px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 36px auto 28px;
+      max-width: 220px;
+    }
+    .divider::before, .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold));
+    }
+    .divider::after { background: linear-gradient(90deg, var(--gold), transparent); }
+    .divider span {
+      width: 10px; height: 10px;
+      background: var(--gold);
+      clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+    }
+
+    .tagline {
+      font-size: clamp(1.05rem, 2.3vw, 1.3rem);
+      line-height: 1.7;
+      font-weight: 500;
+      color: var(--navy-soft);
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .tagline strong { color: var(--navy); font-weight: 600; }
+
+    .services {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 32px auto 0;
+      max-width: 680px;
+    }
+    .services li {
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--navy);
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 9px 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .services li::before {
+      content: "";
+      width: 7px; height: 7px;
+      background: var(--gold);
+      clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+    }
+
+    .contact {
+      margin-top: 44px;
+      padding-top: 32px;
+      border-top: 1px solid var(--line);
+    }
+    .contact-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+      margin-bottom: 14px;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: inherit;
+      font-size: 1.05rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 12px;
+      padding: 14px 24px;
+      transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .btn svg { width: 20px; height: 20px; flex: none; }
+    .btn-primary {
+      background: var(--navy);
+      color: #fff;
+      box-shadow: 0 10px 24px -10px rgba(35, 33, 74, 0.6);
+    }
+    .btn-primary:hover { transform: translateY(-2px); background: #2e2b60; }
+    .btn-outline {
+      background: #fff;
+      color: var(--navy);
+      border: 1px solid rgba(35, 33, 74, 0.18);
+    }
+    .btn-outline:hover { transform: translateY(-2px); border-color: var(--gold); }
+    .btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--navy-soft);
+      opacity: 0.8;
+      padding: 0 16px 28px;
+    }
+
+    @media (max-width: 600px) {
+      .card { padding: 36px 22px 32px; border-radius: 18px; }
+      .divider { margin: 28px auto 22px; }
+      .services li { font-size: 0.76rem; padding: 8px 13px; }
+      .btn { width: 100%; justify-content: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true">
+    <div class="glow gold"></div>
+    <div class="glow navy"></div>
+    <svg class="network" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+      <path d="M-20 140 H220 L300 220 H520" />
+      <circle cx="520" cy="220" r="4" />
+      <path d="M1460 120 H1180 L1100 200 H960" />
+      <circle cx="960" cy="200" r="4" />
+      <path class="n" d="M-20 700 H180 L260 620 H420" />
+      <circle class="nc" cx="420" cy="620" r="4" />
+      <path class="n" d="M1460 760 H1240 L1160 680 H1010" />
+      <circle class="nc" cx="1010" cy="680" r="4" />
+      <path d="M140 920 V820 L200 760" />
+      <circle cx="200" cy="760" r="3.5" />
+      <path class="n" d="M1300 -20 V60 L1240 120" />
+      <circle class="nc" cx="1240" cy="120" r="3.5" />
+    </svg>
+  </div>
+
+  <main>
+    <section class="card">
+      <h1 style="margin:0">
+        <img class="logo" src="assets/logo.png" width="1200" height="367" alt="Data Bee – Health Data Solutions">
+      </h1>
+
+      <div class="divider" aria-hidden="true"><span></span></div>
+
+      <p class="tagline">
+        Managing data of the patients in several formats to provide information to relevant
+        <strong>government departments</strong> like <span style="white-space:nowrap">Birth-Death</span>, MTP, Ultrasonography, hospitals, clinics.
+      </p>
+
+      <ul class="services" aria-label="Who we serve">
+        <li>Birth &amp; Death</li>
+        <li>MTP</li>
+        <li>Ultrasonography</li>
+        <li>Hospitals</li>
+        <li>Clinics</li>
+      </ul>
+
+      <div class="contact">
+        <p class="contact-label">Get in touch</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="tel:+919016498298">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
+            +91 90164 98298
+          </a>
+          <a class="btn btn-outline" href="https://wa.me/919016498298" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4C2.7 15.6 2.2 13.8 2.2 12 2.2 6.6 6.6 2.2 12 2.2c2.6 0 5.1 1 6.9 2.9 1.8 1.8 2.9 4.3 2.9 6.9 0 5.4-4.4 9.8-9.8 9.8zm8.4-18.2C18.1 1.3 15.2.1 12 .1 5.5.1.2 5.4.2 11.9c0 2.1.5 4.1 1.6 5.9L.1 24l6.3-1.7c1.7.9 3.7 1.4 5.6 1.4 6.5 0 11.8-5.3 11.8-11.8 0-3.2-1.2-6.1-3.4-8.3z"/></svg>
+            WhatsApp
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; <span id="year">2026</span> Data Bee &middot; Health Data Solutions
+  </footer>
+
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>
